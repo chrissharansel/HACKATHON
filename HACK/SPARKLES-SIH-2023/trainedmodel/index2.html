@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Data Predictor</title>
+</head>
+<body>
+    <h1>Instagram Data Predictor</h1>
+    <form id="instagramForm">
+        <label for="username">Enter Instagram username:</label>
+        <input type="text" id="username" name="username" required>
+        <button type="button" onclick="predictInstagramData()">Submit</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        function predictInstagramData() {
+            // Get the input value
+            var username = document.getElementById("username").value;
+
+            // Display loading message
+            document.getElementById("result").innerHTML = "Loading...";
+
+            // Send the username to the server (you need a server to execute the Python script)
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username: username }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the result
+                document.getElementById("result").innerHTML = data.result;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById("result").innerHTML = "An error occurred.";
+            });
+        }
+    </script>
+</body>
+</html>
